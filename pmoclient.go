@@ -19,7 +19,7 @@ import (
 )
 
 // some constants
-const FormatString = "%s\t%s\t%s\t%s\t%s\t%v\n"
+const FormatString = "%s\t%s\t%s\t%s\t%s\t%s\t%v\n"
 const RelativeConfigFilePath = "/.config/pmoclient.json"
 
 // initialize http client
@@ -106,6 +106,7 @@ func printTable() {
 	// print header
 	fmt.Fprintf(w, FormatString,
 		"Name",
+		"Grade",
 		"Profile",
 		"Account",
 		"Project",
@@ -117,6 +118,7 @@ func printTable() {
 	for _, enginer := range filtered {
 		fmt.Fprintf(w, FormatString,
 			enginer.FullName,
+			enginer.Grade,
 			enginer.WorkProfile,
 			strings.Join(pmo.RemoveDups(enginer.Account), ","),
 			strings.Join(pmo.RemoveDups(enginer.Project), ","),
