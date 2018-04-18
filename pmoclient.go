@@ -161,8 +161,7 @@ func main() {
 	// 	fmt.Println(nm)
 	// }
 
-	for _, engineer := range engineers {
-		es.AppendPerson(engineer)
-	}
+	es.Clear()
+	es.AppendEngineers(engineers)
 
 }
