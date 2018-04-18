@@ -7,6 +7,7 @@ import (
 	"os/user"
 )
 
+// ReadConfig gets information from config file and creates structure `Configuration`
 func ReadConfig(relativeConfigFilePath string) Configuration {
 	usr, err := user.Current()
 	if err != nil {
@@ -28,14 +29,14 @@ func ReadConfig(relativeConfigFilePath string) Configuration {
 
 }
 
-// helper function to remove duplicates
-func RemoveDups(elements []string) []string {
+// RemoveDuplicates helper function to remove duplicates
+func RemoveDuplicates(elements []string) []string {
 	// Use map to record duplicates as we find them.
 	encountered := map[string]bool{}
 	result := []string{}
 
 	for v := range elements {
-		if encountered[elements[v]] == true {
+		if encountered[elements[v]] {
 			// Do not add duplicate.
 		} else {
 			// Record this element as an encountered element.

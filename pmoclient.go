@@ -5,7 +5,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/vistrcm/pmoclient/pmo"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -16,6 +15,8 @@ import (
 	"strings"
 	"text/tabwriter"
 	"time"
+
+	"github.com/vistrcm/pmoclient/pmo"
 )
 
 // some constants
@@ -38,7 +39,7 @@ var config pmo.Configuration
 
 // login to PMO
 func login() {
-	resp, err := client.PostForm(config.LoginUrl, url.Values{"j_username": {config.Username}, "j_password": {config.Password}})
+	resp, err := client.PostForm(config.LoginURL, url.Values{"j_username": {config.Username}, "j_password": {config.Password}})
 	if err != nil {
 		log.Fatalf("error during login: %v, resp: %v", err, resp)
 	}
@@ -65,7 +66,7 @@ func request(url string) *http.Response {
 
 // get list of engineers by sending request to
 func engineers() []pmo.Person {
-	resp := request(config.PeopleListUrl)
+	resp := request(config.PeopleListURL)
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -90,14 +91,14 @@ func filterEngineers() []pmo.Person {
 	}
 
 	for _, val := range engineers() {
-		if filterMap[strings.ToLower(val.EmployeeId)] {
+		if filterMap[strings.ToLower(val.EmployeeID)] {
 			filteredEngineers = append(filteredEngineers, val)
 		}
 	}
 	return filteredEngineers
 }
 
-// finction to print table representation of engineers
+// function to print table representation of engineers
 func printTable() {
 	// Observe how the b's and the d's, despite appearing in the
 	// second cell of each line, belong to different columns.
@@ -115,15 +116,15 @@ func printTable() {
 	// iterate over engineers and print only required from config
 	filtered := pmo.ByLocation(filterEngineers())
 	sort.Sort(filtered) // sort by location
-	for _, enginer := range filtered {
+	for _, engineer := range filtered {
 		fmt.Fprintf(w, FormatString,
-			enginer.FullName,
-			enginer.Grade,
-			enginer.WorkProfile,
-			strings.Join(pmo.RemoveDups(enginer.Account), ","),
-			strings.Join(pmo.RemoveDups(enginer.Project), ","),
-			enginer.Manager,
-			strings.Join(pmo.RemoveDups(enginer.AssignmentStatuses()), ","))
+			engineer.FullName,
+			engineer.Grade,
+			engineer.WorkProfile,
+			strings.Join(pmo.RemoveDuplicates(engineer.Account), ","),
+			strings.Join(pmo.RemoveDuplicates(engineer.Project), ","),
+			engineer.Manager,
+			strings.Join(pmo.RemoveDuplicates(engineer.AssignmentStatuses()), ","))
 	}
 
 	w.Flush()

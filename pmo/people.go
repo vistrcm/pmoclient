@@ -5,9 +5,10 @@ type assignStatus struct {
 	Name  string
 }
 
+// Person contains person-related information presented in PMO
 type Person struct {
-	Id                int
-	EmployeeId        string
+	ID                int
+	EmployeeID        string
 	Location          string
 	Manager           string
 	Grade             string
@@ -22,8 +23,8 @@ type Person struct {
 	AssignmentComment []string
 	Involvements      []int
 	AssignmentStatus  []assignStatus
-	StaffPositionId   int
-	ProjectId         int
+	StaffPositionID   int
+	ProjectID         int
 	Involvement       int
 	Status            string
 	BenchStart        int
@@ -36,6 +37,7 @@ type Person struct {
 	CanBeMovedToBench bool
 }
 
+// AssignmentStatuses returns list of assignment statuses
 func (p *Person) AssignmentStatuses() []string {
 	result := make([]string, 0)
 	for _, element := range p.AssignmentStatus {
@@ -44,7 +46,7 @@ func (p *Person) AssignmentStatuses() []string {
 	return result
 }
 
-// ByAge implements sort.Interface for []Person based on
+// ByLocation implements sort.Interface for []Person based on
 // the Location field.
 type ByLocation []Person
 
@@ -60,6 +62,7 @@ func (slice ByLocation) Swap(i, j int) {
 	slice[i], slice[j] = slice[j], slice[i]
 }
 
+// APIResponse represent fields in PMO api response
 type APIResponse struct {
 	Page    int      `json:"page"`
 	Total   int      `json:"total"`
@@ -67,10 +70,11 @@ type APIResponse struct {
 	Rows    []Person `json:"rows"`
 }
 
+// Configuration of PMO client
 type Configuration struct {
 	Username      string   `json:"username"`
 	Password      string   `json:"password"`
 	FilterUsers   []string `json:"filterUsers"`
-	LoginUrl      string   `json:"loginUrl"`
-	PeopleListUrl string   `json:"peopleListUrl"`
+	LoginURL      string   `json:"loginUrl"`
+	PeopleListURL string   `json:"peopleListUrl"`
 }
