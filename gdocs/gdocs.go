@@ -67,6 +67,122 @@ func (es *EngineersSheet) Clear() {
 	}
 }
 
+// AppendEngineers from engineers slice to the spreadsheet
+func (es *EngineersSheet) AppendEngineers(engineers []pmo.Person) {
+	// add header
+	values := []interface{}{
+		"ID",
+		"EmployeeID",
+		"Location",
+		"Manager",
+		"Grade",
+		"Specialization",
+		"WorkProfile",
+		"Position",
+		"FullName",
+		"AssignmentStart",
+		"Project",
+		"Account",
+		"AssignmentFinish",
+		"AssignmentComment",
+		"Involvements",
+		"StaffPositionID",
+		"ProjectID",
+		"Involvement",
+		"Status",
+		"BenchStart",
+		"DaysOnBench",
+		"DaysAvailable",
+		"DaysOnBenchAlt",
+		"BenchStartAlt",
+		"TotalInvolvement",
+		"NewBenchStart",
+		"CanBeMovedToBench",
+	}
+
+	var vr sheets.ValueRange
+	vr.Values = append(vr.Values, values)
+
+	_, err := es.srv.Spreadsheets.Values.Append(es.spreadsheetID, es.appendRange, &vr).ValueInputOption("RAW").Do()
+	if err != nil {
+		log.Fatalf("Unable to update data from sheet: %v", err)
+	}
+
+	for _, engineer := range engineers {
+		es.appendEngineer(engineer)
+	}
+}
+
+// appendEngineer to append  Person to the spreadsheet.
+func (es *EngineersSheet) appendEngineer(engineer pmo.Person) {
+
+	// engineer.ID                int
+	// engineer.EmployeeID        string
+	// engineer.Location          string
+	// engineer.Manager           string
+	// engineer.Grade             string
+	// engineer.Specialization    string
+	// engineer.WorkProfile       string
+	// engineer.Position          string
+	// engineer.FullName          string
+	// engineer.AssignmentStart   []int
+	// engineer.Project           []string
+	// engineer.Account           []string
+	// engineer.AssignmentFinish  []int
+	// engineer.AssignmentComment []string
+	// engineer.Involvements      []int
+	// engineer.StaffPositionID   int
+	// engineer.ProjectID         int
+	// engineer.Involvement       int
+	// engineer.Status            string
+	// engineer.BenchStart        int
+	// engineer.DaysOnBench       int
+	// engineer.DaysAvailable     int
+	// engineer.DaysOnBenchAlt    int
+	// engineer.BenchStartAlt     int
+	// engineer.TotalInvolvement  string
+	// engineer.NewBenchStart     string
+	// engineer.CanBeMovedToBench bool
+
+	values := []interface{}{
+		engineer.ID,
+		engineer.EmployeeID,
+		engineer.Location,
+		engineer.Manager,
+		engineer.Grade,
+		engineer.Specialization,
+		engineer.WorkProfile,
+		engineer.Position,
+		engineer.FullName,
+		sliceI2str(engineer.AssignmentStart),
+		slice2str(engineer.Project),
+		slice2str(engineer.Account),
+		sliceI2str(engineer.AssignmentFinish),
+		slice2str(engineer.AssignmentComment),
+		sliceI2str(engineer.Involvements),
+		engineer.StaffPositionID,
+		engineer.ProjectID,
+		engineer.Involvement,
+		engineer.Status,
+		engineer.BenchStart,
+		engineer.DaysOnBench,
+		engineer.DaysAvailable,
+		engineer.DaysOnBenchAlt,
+		engineer.BenchStartAlt,
+		engineer.TotalInvolvement,
+		engineer.NewBenchStart,
+		engineer.CanBeMovedToBench,
+	}
+
+	var vr sheets.ValueRange
+	vr.Values = append(vr.Values, values)
+
+	_, err := es.srv.Spreadsheets.Values.Append(es.spreadsheetID, es.appendRange, &vr).ValueInputOption("RAW").Do()
+	if err != nil {
+		log.Fatalf("Unable to update data from sheet: %v", err)
+	}
+}
+
 // NewEngineersSheet generates new
 func NewEngineersSheet(spreadsheetID string, secretFile string) EngineersSheet {
 	client := clientFromFile(secretFile)
