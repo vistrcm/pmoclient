@@ -19,9 +19,9 @@ import (
 	"github.com/vistrcm/pmoclient/pmo"
 )
 
-// some constants
-const FormatString = "%s\t%s\t%s\t%s\t%s\t%s\t%v\n"
-const RelativeConfigFilePath = "/.config/pmoclient.json"
+// formatString for print results
+const formatString = "%s\t%s\t%s\t%s\t%s\t%s\t%v\n"
+const relativeConfigFilePath = "/.config/pmoclient.json"
 
 // initialize http client
 var cookieJar, _ = cookiejar.New(nil)
@@ -67,7 +67,12 @@ func request(url string) *http.Response {
 // get list of engineers by sending request to
 func engineers() []pmo.Person {
 	resp := request(config.PeopleListURL)
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			log.Fatalf("Error when closing: %v\n", err)
+		}
+	}()
+
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatalf("error on reading: %v. body: %v", err, body)
@@ -75,7 +80,7 @@ func engineers() []pmo.Person {
 	var peopleResponse = new(pmo.APIResponse)
 	err = json.Unmarshal(body, &peopleResponse)
 	if err != nil {
-		log.Fatalf("something happened during unmarshall: %v. engineers: %v", err, engineers)
+		log.Fatalf("something happened during unmarshall: %v. body: %v\n", err, body)
 	}
 	return peopleResponse.Rows
 }
@@ -105,7 +110,7 @@ func printTable() {
 	//w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', tabwriter.AlignRight|tabwriter.Debug)
 	w := tabwriter.NewWriter(os.Stdout, 5, 0, 1, ' ', 0)
 	// print header
-	fmt.Fprintf(w, FormatString,
+	_, err := fmt.Fprintf(w, formatString,
 		"Name",
 		"Grade",
 		"Profile",
@@ -113,11 +118,14 @@ func printTable() {
 		"Project",
 		"Manager",
 		"Status")
+	if err != nil {
+		log.Fatalf("[ERR] railed to print formatString %q. E: %v", formatString, err)
+	}
 	// iterate over engineers and print only required from config
 	filtered := pmo.ByLocation(filterEngineers())
 	sort.Sort(filtered) // sort by location
 	for _, engineer := range filtered {
-		fmt.Fprintf(w, FormatString,
+		_, err := fmt.Fprintf(w, formatString,
 			engineer.FullName,
 			engineer.Grade,
 			engineer.WorkProfile,
@@ -125,15 +133,20 @@ func printTable() {
 			strings.Join(pmo.RemoveDuplicates(engineer.Project), ","),
 			engineer.Manager,
 			strings.Join(pmo.RemoveDuplicates(engineer.AssignmentStatuses()), ","))
+		if err != nil {
+			log.Fatalf("[ERR] failed on writing %v to tabwriter. E: %v", engineer, err)
+		}
 	}
 
-	w.Flush()
+	if err := w.Flush(); err != nil {
+		log.Fatalln("can not flush tabwriter")
+	}
 
 }
 
 func main() {
 	// read config
-	config = pmo.ReadConfig(RelativeConfigFilePath)
+	config = pmo.ReadConfig(relativeConfigFilePath)
 	login()
 	printTable() // print table representation of engineers
 }
