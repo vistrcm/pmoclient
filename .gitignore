@@ -1,3 +1,6 @@
 .idea/
 pmoclient.iml
 .vscode/
+
+# ignore google api key
+gdoc_client_secret.json
