@@ -2,7 +2,8 @@
 pmoclient.iml
 .vscode/
 
-# ignore google api key
+# ignore google api key and token
 gdoc_client_secret.json
+token.json
 
 vendor/
