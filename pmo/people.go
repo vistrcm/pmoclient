@@ -70,11 +70,18 @@ type APIResponse struct {
 	Rows    []Person `json:"rows"`
 }
 
+// EngineersSpreadsheet is google spreadsheet with engineering data
+type EngineersSpreadsheet struct {
+	SpreadsheetID string `json:"SpreadsheetID"`
+	SecretFile    string `json:"SecretFile"`
+}
+
 // Configuration of PMO client
 type Configuration struct {
-	Username      string   `json:"username"`
-	Password      string   `json:"password"`
-	FilterUsers   []string `json:"filterUsers"`
-	LoginURL      string   `json:"loginUrl"`
-	PeopleListURL string   `json:"peopleListUrl"`
+	Username      string               `json:"username"`
+	Password      string               `json:"password"`
+	FilterUsers   []string             `json:"filterUsers"`
+	LoginURL      string               `json:"loginUrl"`
+	PeopleListURL string               `json:"peopleListUrl"`
+	Spreadsheet   EngineersSpreadsheet `json:"Spreadsheet"`
 }
