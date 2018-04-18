@@ -16,6 +16,7 @@ import (
 	"text/tabwriter"
 	"time"
 
+	"github.com/vistrcm/pmoclient/gdocs"
 	"github.com/vistrcm/pmoclient/pmo"
 )
 
@@ -104,7 +105,7 @@ func filterEngineers() []pmo.Person {
 }
 
 // function to print table representation of engineers
-func printTable() {
+func printTable(engineers []pmo.Person) {
 	// Observe how the b's and the d's, despite appearing in the
 	// second cell of each line, belong to different columns.
 	//w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', tabwriter.AlignRight|tabwriter.Debug)
@@ -122,7 +123,7 @@ func printTable() {
 		log.Fatalf("[ERR] railed to print formatString %q. E: %v", formatString, err)
 	}
 	// iterate over engineers and print only required from config
-	filtered := pmo.ByLocation(filterEngineers())
+	filtered := pmo.ByLocation(engineers)
 	sort.Sort(filtered) // sort by location
 	for _, engineer := range filtered {
 		_, err := fmt.Fprintf(w, formatString,
@@ -148,5 +149,20 @@ func main() {
 	// read config
 	config = pmo.ReadConfig(relativeConfigFilePath)
 	login()
-	printTable() // print table representation of engineers
+
+	engineers := filterEngineers()
+
+	printTable(engineers) // print table representation of engineers
+
+	es := gdocs.NewEngineersSheet(config.Spreadsheet.SpreadsheetID, config.Spreadsheet.SecretFile)
+
+	// for _, nm := range es.GetNames() {
+
+	// 	fmt.Println(nm)
+	// }
+
+	for _, engineer := range engineers {
+		es.AppendPerson(engineer)
+	}
+
 }
