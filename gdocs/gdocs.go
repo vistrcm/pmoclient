@@ -71,33 +71,18 @@ func (es *EngineersSheet) Clear() {
 func (es *EngineersSheet) AppendEngineers(engineers []pmo.Person) {
 	// add header
 	values := []interface{}{
-		"ID",
-		"EmployeeID",
-		"Location",
-		"Manager",
-		"Grade",
-		"Specialization",
-		"WorkProfile",
-		"Position",
 		"FullName",
-		"AssignmentStart",
-		"Project",
+		"Location",
+		"Grade",
 		"Account",
-		"AssignmentFinish",
-		"AssignmentComment",
+		"Project",
 		"Involvements",
-		"StaffPositionID",
-		"ProjectID",
-		"Involvement",
 		"Status",
-		"BenchStart",
-		"DaysOnBench",
-		"DaysAvailable",
-		"DaysOnBenchAlt",
-		"BenchStartAlt",
-		"TotalInvolvement",
-		"NewBenchStart",
+		"Manager",
+		"WorkProfile",
+		"Specialization",
 		"CanBeMovedToBench",
+		"EmployeeID",
 	}
 
 	var vr sheets.ValueRange
@@ -115,63 +100,19 @@ func (es *EngineersSheet) AppendEngineers(engineers []pmo.Person) {
 
 // appendEngineer to append  Person to the spreadsheet.
 func (es *EngineersSheet) appendEngineer(engineer pmo.Person) {
-
-	// engineer.ID                int
-	// engineer.EmployeeID        string
-	// engineer.Location          string
-	// engineer.Manager           string
-	// engineer.Grade             string
-	// engineer.Specialization    string
-	// engineer.WorkProfile       string
-	// engineer.Position          string
-	// engineer.FullName          string
-	// engineer.AssignmentStart   []int
-	// engineer.Project           []string
-	// engineer.Account           []string
-	// engineer.AssignmentFinish  []int
-	// engineer.AssignmentComment []string
-	// engineer.Involvements      []int
-	// engineer.StaffPositionID   int
-	// engineer.ProjectID         int
-	// engineer.Involvement       int
-	// engineer.Status            string
-	// engineer.BenchStart        int
-	// engineer.DaysOnBench       int
-	// engineer.DaysAvailable     int
-	// engineer.DaysOnBenchAlt    int
-	// engineer.BenchStartAlt     int
-	// engineer.TotalInvolvement  string
-	// engineer.NewBenchStart     string
-	// engineer.CanBeMovedToBench bool
-
 	values := []interface{}{
-		engineer.ID,
-		engineer.EmployeeID,
-		engineer.Location,
-		engineer.Manager,
-		engineer.Grade,
-		engineer.Specialization,
-		engineer.WorkProfile,
-		engineer.Position,
 		engineer.FullName,
-		sliceI2str(engineer.AssignmentStart),
-		slice2str(engineer.Project),
+		engineer.Location,
+		engineer.Grade,
 		slice2str(engineer.Account),
-		sliceI2str(engineer.AssignmentFinish),
-		slice2str(engineer.AssignmentComment),
+		slice2str(engineer.Project),
 		sliceI2str(engineer.Involvements),
-		engineer.StaffPositionID,
-		engineer.ProjectID,
-		engineer.Involvement,
 		engineer.Status,
-		engineer.BenchStart,
-		engineer.DaysOnBench,
-		engineer.DaysAvailable,
-		engineer.DaysOnBenchAlt,
-		engineer.BenchStartAlt,
-		engineer.TotalInvolvement,
-		engineer.NewBenchStart,
+		engineer.Manager,
+		engineer.WorkProfile,
+		engineer.Specialization,
 		engineer.CanBeMovedToBench,
+		engineer.EmployeeID,
 	}
 
 	var vr sheets.ValueRange
