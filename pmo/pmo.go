@@ -101,11 +101,12 @@ func (pmo *PMO) FilterEngineers(filter []string) []Person {
 	// initialize temporary map for filtering
 	filterMap := make(map[string]bool)
 	for _, u := range filter {
-		filterMap[strings.ToLower(u)] = true
+		filterMap[strings.Replace(strings.ToLower(u), " ", "", -1)] = true
 	}
 
 	for _, val := range pmo.engineers() {
-		if filterMap[strings.ToLower(val.EmployeeID)] {
+		targetKey := strings.Replace(strings.ToLower(val.FullName), " ", "", -1)
+		if filterMap[targetKey] {
 			filteredEngineers = append(filteredEngineers, val)
 		}
 	}
