@@ -18,30 +18,34 @@ var useSpreadSheet = flag.Bool("spreadsheet", false, "use spreadsheet to get nam
 
 func main() {
 	flag.Parse()
-
 	// read config
 	config = pmo.ReadConfig(relativeConfigFilePath)
 
 	p := pmo.NewPMO(config)
 	p.Login()
 
+	engineersCh := make(chan []pmo.Person)
+	doneCh := make(chan bool)
+
+	go printTable(engineersCh, doneCh)
+
 	var engineers []pmo.Person
 	if !*useSpreadSheet {
 		engineers = p.FilterEngineersByConfig()
+		engineersCh <- engineers
 	} else {
-		engineers = p.FilterEngineersByConfig()
+		es := gdocs.NewEngineersSheet(config.Spreadsheet.SpreadsheetID, config.Spreadsheet.SecretFile)
+		filter := es.GetNames()
+		engineers = p.FilterEngineers(filter)
+		engineersCh <- engineers
+		es.Clear()
+		es.AppendEngineers(engineers)
 	}
-
-	pmo.PrintTable(engineers, formatString) // print table representation of engineers
-
-	if *useSpreadSheet {
-		processSpreadsheet(engineers)
-	}
-
+	<-doneCh
 }
 
-func processSpreadsheet(engineers []pmo.Person) {
-	es := gdocs.NewEngineersSheet(config.Spreadsheet.SpreadsheetID, config.Spreadsheet.SecretFile)
-	es.Clear()
-	es.AppendEngineers(engineers)
+func printTable(engineersCh chan []pmo.Person, doneCh chan bool) {
+	engineers := <-engineersCh
+	pmo.PrintTable(engineers, formatString) // print table representation of engineers
+	doneCh <- true
 }
