@@ -136,7 +136,7 @@ func NewEngineersSheet(spreadsheetID string, secretFile string) EngineersSheet {
 	es := EngineersSheet{
 		srv:           srv,
 		spreadsheetID: spreadsheetID,
-		namesRange:    "list!A2:A35",
+		namesRange:    "list!A2:A100",
 		appendRange:   "AutofillFromPMO!A1",
 		cleanRange:    "AutofillFromPMO!A1:ZZ1000",
 	}
