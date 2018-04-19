@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/user"
 	"strconv"
 	"strings"
 
@@ -159,7 +160,11 @@ func clientFromFile(secretFile string) *http.Client {
 
 // getClient retrieves a token, saves the token, then returns the generated client
 func getClient(config *oauth2.Config) *http.Client {
-	tokFile := "token.json"
+	usr, err := user.Current()
+	if err != nil {
+		log.Fatal(err)
+	}
+	tokFile := usr.HomeDir + "/.config/pmoclient_gdoc_token.json"
 	tok, err := tokenFromFile(tokFile)
 	if err != nil {
 		tok = getTokenFromWeb(config)
