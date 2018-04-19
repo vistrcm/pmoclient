@@ -115,19 +115,5 @@ func (pmo *PMO) FilterEngineers(filter []string) []Person {
 
 // FilterEngineersByConfig using filter defined in config
 func (pmo *PMO) FilterEngineersByConfig() []Person {
-	// initialize return value
-	filteredEngineers := make([]Person, 0)
-
-	// initialize temporary map for filtering
-	filterMap := make(map[string]bool)
-	for _, u := range pmo.config.FilterUsers {
-		filterMap[strings.ToLower(u)] = true
-	}
-
-	for _, val := range pmo.engineers() {
-		if filterMap[strings.ToLower(val.EmployeeID)] {
-			filteredEngineers = append(filteredEngineers, val)
-		}
-	}
-	return filteredEngineers
+	return pmo.FilterEngineers(pmo.config.FilterUsers)
 }
