@@ -28,6 +28,8 @@ func main() {
 	var engineers []pmo.Person
 	if !*useSpreadSheet {
 		engineers = p.FilterEngineersByConfig()
+	} else {
+		engineers = p.FilterEngineersByConfig()
 	}
 
 	pmo.PrintTable(engineers, formatString) // print table representation of engineers
