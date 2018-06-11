@@ -90,7 +90,7 @@ func (pmo *PMO) engineers() []Person {
 	if err != nil {
 		log.Fatalf("something happened during unmarshall: %v. body: %v\n", err, body)
 	}
-	return peopleResponse.Rows
+	return peopleResponse.Data
 }
 
 // FilterEngineers returns only data for subset of engineers defined in `filter``
@@ -105,7 +105,7 @@ func (pmo *PMO) FilterEngineers(filter []string) []Person {
 	}
 
 	for _, val := range pmo.engineers() {
-		targetKey := strings.Replace(strings.ToLower(val.FullName), " ", "", -1)
+		targetKey := strings.Replace(strings.ToLower(val.Name), " ", "", -1)
 		if filterMap[targetKey] {
 			filteredEngineers = append(filteredEngineers, val)
 		}

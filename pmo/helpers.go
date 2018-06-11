@@ -77,11 +77,11 @@ func PrintTable(engineers []Person, formatString string) {
 	sort.Sort(filtered) // sort by location
 	for _, engineer := range filtered {
 		_, err := fmt.Fprintf(w, formatString,
-			engineer.FullName,
+			engineer.Name,
 			engineer.Grade,
-			engineer.WorkProfile,
-			strings.Join(RemoveDuplicates(engineer.Account), ","),
-			strings.Join(RemoveDuplicates(engineer.Project), ","),
+			engineer.Profile,
+			engineer.GetAccountsString(),
+			engineer.GetProjectsString(),
 			engineer.Manager,
 			strings.Join(RemoveDuplicates(engineer.AssignmentStatuses()), ","))
 		if err != nil {

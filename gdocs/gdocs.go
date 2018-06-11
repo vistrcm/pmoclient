@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"os"
 	"os/user"
-	"strconv"
 	"strings"
 
 	"github.com/vistrcm/pmoclient/pmo"
@@ -50,14 +49,6 @@ func slice2str(data []string) string {
 	return strings.Join(pmo.RemoveDuplicates(data), "\n")
 }
 
-func sliceI2str(data []int) string {
-	var new []string
-	for _, v := range data {
-		new = append(new, strconv.Itoa(v))
-	}
-	return strings.Join(pmo.RemoveDuplicates(new), "\n")
-}
-
 // Clear spreadsheet defined in spreadsheetID
 func (es *EngineersSheet) Clear() {
 	var vr sheets.ClearValuesRequest
@@ -77,12 +68,9 @@ func (es *EngineersSheet) AppendEngineers(engineers []pmo.Person) {
 		"Grade",
 		"Account",
 		"Project",
-		"Involvements",
-		"Status",
 		"Manager",
-		"WorkProfile",
+		"Profile",
 		"Specialization",
-		"CanBeMovedToBench",
 		"EmployeeID",
 	}
 
@@ -102,18 +90,15 @@ func (es *EngineersSheet) AppendEngineers(engineers []pmo.Person) {
 // appendEngineer to append  Person to the spreadsheet.
 func (es *EngineersSheet) appendEngineer(engineer pmo.Person) {
 	values := []interface{}{
-		engineer.FullName,
+		engineer.Name,
 		engineer.Location,
 		engineer.Grade,
-		slice2str(engineer.Account),
-		slice2str(engineer.Project),
-		sliceI2str(engineer.Involvements),
-		engineer.Status,
+		slice2str(engineer.GetAccounts()),
+		slice2str(engineer.GetProjects()),
 		engineer.Manager,
-		engineer.WorkProfile,
+		engineer.Profile,
 		engineer.Specialization,
-		engineer.CanBeMovedToBench,
-		engineer.EmployeeID,
+		engineer.ID,
 	}
 
 	var vr sheets.ValueRange
