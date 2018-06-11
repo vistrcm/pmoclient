@@ -3,3 +3,9 @@ install: lint
 
 lint:
 	gometalinter --vendor ./...
+
+
+prereq:
+	dep ensure -v && \
+	go get -u github.com/alecthomas/gometalinter && \
+	gometalinter --install
