@@ -1,6 +1,9 @@
 package pmo
 
-import "strings"
+import (
+	"strings"
+	"fmt"
+)
 
 // employee data
 type employee struct {
@@ -48,6 +51,24 @@ type Person struct {
 	Assignments      []assignment       `json:"assignments"`
 	EngineerManagers []engineerManagers `json:"engineerManagers"`
 	InBusinessTrip   bool               `json:"inBusinessTrip"`
+}
+
+// GetAssignments returns assignments in form `account-project-involvement`
+func (p *Person) GetAssignmentsString() []string {
+	var assignments []string
+	for _, assignment := range p.Assignments {
+		assignments = append(assignments, fmt.Sprintf("%q-%q-%d", assignment.Account, assignment.Project, assignment.Involvement))
+	}
+	return assignments
+}
+
+// GetEngineerManagers return list of managers
+func (p *Person)GetEngineerManagers() []string {
+	var managers []string
+	for _, manager := range p.EngineerManagers {
+		managers = append(managers, manager.Employee.Username)
+	}
+	return managers
 }
 
 // GetAccounts returns list of accounts this engineer is working on

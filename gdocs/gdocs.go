@@ -63,15 +63,23 @@ func (es *EngineersSheet) Clear() {
 func (es *EngineersSheet) AppendEngineers(engineers []pmo.Person) {
 	// add header
 	values := []interface{}{
-		"FullName",
+		"Name",
 		"Location",
 		"Grade",
-		"Account",
-		"Project",
+		"Assignments",
+		"Accounts",
+		"Projects",
+		"EngineeringManagers",
 		"Manager",
 		"Profile",
 		"Specialization",
-		"EmployeeID",
+		"Position",
+		"Username",
+		"AvailableDays",
+		"DaysOnBench",
+		"ID",
+		"ServiceLine",
+		"InBusinessTrip",
 	}
 
 	var vr sheets.ValueRange
@@ -93,12 +101,20 @@ func (es *EngineersSheet) appendEngineer(engineer pmo.Person) {
 		engineer.Name,
 		engineer.Location,
 		engineer.Grade,
+		slice2str(engineer.GetAssignmentsString()),
 		slice2str(engineer.GetAccounts()),
 		slice2str(engineer.GetProjects()),
+		slice2str(engineer.GetEngineerManagers()),
 		engineer.Manager,
 		engineer.Profile,
 		engineer.Specialization,
+		engineer.Position,
+		engineer.Username,
+		engineer.AvailableDays,
+		engineer.DaysOnBench,
 		engineer.ID,
+		engineer.ServiceLine,
+		engineer.InBusinessTrip,
 	}
 
 	var vr sheets.ValueRange
