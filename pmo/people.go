@@ -53,7 +53,7 @@ type Person struct {
 	InBusinessTrip   bool               `json:"inBusinessTrip"`
 }
 
-// GetAssignments returns assignments in form `account-project-involvement`
+// GetAssignmentsString returns assignments in form `account-project-involvement`
 func (p *Person) GetAssignmentsString() []string {
 	var assignments []string
 	for _, assignment := range p.Assignments {
