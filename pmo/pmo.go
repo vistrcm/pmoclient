@@ -81,6 +81,10 @@ func (pmo *PMO) engineers() []Person {
 		}
 	}()
 
+	if resp.StatusCode != http.StatusOK {
+		log.Fatalf("request to %q completed with status %s\n", resp.Request.URL, resp.Status)
+	}
+
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatalf("error on reading: %v. body: %v", err, body)
@@ -88,7 +92,7 @@ func (pmo *PMO) engineers() []Person {
 	var peopleResponse = new(APIResponse)
 	err = json.Unmarshal(body, &peopleResponse)
 	if err != nil {
-		log.Fatalf("something happened during unmarshall: %v. body: %v\n", err, body)
+		log.Fatalf("something happened during unmarshall: %v. body: %v\n", err, string(body))
 	}
 	return peopleResponse.Data
 }
