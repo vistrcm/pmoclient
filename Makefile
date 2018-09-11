@@ -1,3 +1,5 @@
+.PHONY: install lint prereq
+
 install: lint
 	go install -v
 
