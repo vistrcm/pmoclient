@@ -19,7 +19,7 @@ func ReadConfig(relativeConfigFilePath string) Configuration {
 		log.Fatal(err)
 	}
 	configFileName := usr.HomeDir + relativeConfigFilePath
-	raw, err := ioutil.ReadFile(configFileName)
+	raw, err := ioutil.ReadFile(configFileName) // nolint: gosec
 	if err != nil {
 		log.Fatalf("error %q happened reading config file %v. raw: %v", err, configFileName, raw)
 	}

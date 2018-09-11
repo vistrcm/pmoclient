@@ -146,7 +146,7 @@ func NewEngineersSheet(spreadsheetID string, secretFile string) EngineersSheet {
 }
 
 func clientFromFile(secretFile string) *http.Client {
-	b, err := ioutil.ReadFile(secretFile)
+	b, err := ioutil.ReadFile(secretFile) // nolint: gosec
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
 	}
@@ -192,7 +192,7 @@ func getTokenFromWeb(config *oauth2.Config) *oauth2.Token {
 
 // Retrieves token from a local file.
 func tokenFromFile(file string) (*oauth2.Token, error) {
-	f, err := os.Open(file)
+	f, err := os.Open(file) // nolint: gosec
 	defer checkDefer(f.Close)
 	if err != nil {
 		return nil, err
