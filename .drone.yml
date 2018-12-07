@@ -1,0 +1,17 @@
+kind: pipeline
+name: default
+
+workspace:
+  base: /go
+  path: src/github.com/vistrcm/pmoclient
+
+steps:
+- name: build
+  image: golang
+  commands:
+    - go get -u github.com/golang/dep/cmd/dep
+    - go get -u github.com/alecthomas/gometalinter
+    - gometalinter --install
+    - gometalinter --vendor ./...
+    - go test ./...
+    - go build
