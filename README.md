@@ -1,5 +1,7 @@
 # pmoclient
 
+[![Build Status](https://cloud.drone.io/api/badges/vistrcm/pmoclient/status.svg)](https://cloud.drone.io/vistrcm/pmoclient)
+
 very basic script to simplify work with 'PMO' tool. 
 
 This scrip logs in to PMO, get list of engineers and prints table filtered by _filterUsers_ from config.
