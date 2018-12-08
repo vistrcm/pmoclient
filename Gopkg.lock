@@ -19,17 +19,6 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:5745eac2c6a7b238febea5e7ed3cb978b98377d5f4859b95711a41147406d93f"
-  name = "github.com/vistrcm/pmoclient"
-  packages = [
-    "gdocs",
-    "pmo",
-  ]
-  pruneopts = "UT"
-  revision = "89563308adc8ab92c30a1c5a54339274953b72df"
-
-[[projects]]
-  branch = "master"
   digest = "1:d6b719875cf8091fbab38527d81d34e71f4521b9ee9ccfbd4a32cff2ac5af96e"
   name = "golang.org/x/net"
   packages = [
@@ -89,8 +78,6 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/vistrcm/pmoclient/gdocs",
-    "github.com/vistrcm/pmoclient/pmo",
     "golang.org/x/oauth2",
     "golang.org/x/oauth2/google",
     "google.golang.org/api/sheets/v4",
