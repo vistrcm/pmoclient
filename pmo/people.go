@@ -1,8 +1,8 @@
 package pmo
 
 import (
-	"strings"
 	"fmt"
+	"strings"
 )
 
 // employee data
@@ -63,7 +63,7 @@ func (p *Person) GetAssignmentsString() []string {
 }
 
 // GetEngineerManagers return list of managers
-func (p *Person)GetEngineerManagers() []string {
+func (p *Person) GetEngineerManagers() []string {
 	var managers []string
 	for _, manager := range p.EngineerManagers {
 		managers = append(managers, manager.Employee.Username)
@@ -99,12 +99,12 @@ func (p *Person) AssignmentStatuses() []string {
 }
 
 // GetAccountsString return list of accounts as a string
-func (p *Person)GetAccountsString() string {
+func (p *Person) GetAccountsString() string {
 	return strings.Join(p.GetAccounts(), ",")
 }
 
 // GetProjectsString return list of projects as a string
-func (p *Person)GetProjectsString() string {
+func (p *Person) GetProjectsString() string {
 	return strings.Join(p.GetProjects(), ",")
 }
 
