@@ -6,7 +6,5 @@ pmoclient.iml
 gdoc_client_secret.json
 token.json
 
-vendor/
-
 # ignore local config
 local_pmoclient.json
