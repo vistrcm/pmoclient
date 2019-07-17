@@ -27,4 +27,4 @@ Sample config:
 ```
 
 ## Command line options
-pmoclient has single command line option ```-spreadsheet``. If specified tool will be using Spreadsheet to get list of users to filter and will update 'AutofillFromPMO' sheet in this document.
+pmoclient has single command line option ```-spreadsheet```. If specified tool will be using Spreadsheet to get list of users to filter and will update 'AutofillFromPMO' sheet in this document.
