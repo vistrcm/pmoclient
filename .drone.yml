@@ -6,10 +6,9 @@ workspace:
   path: src/github.com/vistrcm/pmoclient
 
 steps:
-- name: build
+- name: test
   image: golang
   commands:
     - curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(go env GOPATH)/bin v1.17.1
     - golangci-lint run
     - go test ./...
-    - go build
