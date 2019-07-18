@@ -58,7 +58,8 @@ func (p *Person) GetAssignmentsString() []string {
 	assignments := make([]string, len(p.Assignments))
 
 	for _, assignment := range p.Assignments {
-		assignments = append(assignments, fmt.Sprintf("%q-%q-%d", assignment.Account, assignment.Project, assignment.Involvement))
+		assignments = append(assignments,
+			fmt.Sprintf("%q-%q-%d", assignment.Account, assignment.Project, assignment.Involvement))
 	}
 	return assignments
 }
