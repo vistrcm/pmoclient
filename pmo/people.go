@@ -55,7 +55,8 @@ type Person struct {
 
 // GetAssignmentsString returns assignments in form `account-project-involvement`
 func (p *Person) GetAssignmentsString() []string {
-	var assignments []string
+	assignments := make([]string, len(p.Assignments))
+
 	for _, assignment := range p.Assignments {
 		assignments = append(assignments, fmt.Sprintf("%q-%q-%d", assignment.Account, assignment.Project, assignment.Involvement))
 	}
@@ -64,7 +65,8 @@ func (p *Person) GetAssignmentsString() []string {
 
 // GetEngineerManagers return list of managers
 func (p *Person) GetEngineerManagers() []string {
-	var managers []string
+	managers := make([]string, len(p.EngineerManagers))
+
 	for _, manager := range p.EngineerManagers {
 		managers = append(managers, manager.Employee.Username)
 	}
@@ -73,7 +75,8 @@ func (p *Person) GetEngineerManagers() []string {
 
 // GetAccounts returns list of accounts this engineer is working on
 func (p *Person) GetAccounts() []string {
-	var accounts []string
+	accounts := make([]string, len(p.Assignments))
+
 	for _, assignment := range p.Assignments {
 		accounts = append(accounts, assignment.Account)
 	}
@@ -82,7 +85,8 @@ func (p *Person) GetAccounts() []string {
 
 // GetProjects returns list of projects this engineer is assigned to
 func (p *Person) GetProjects() []string {
-	var projects []string
+	projects := make([]string, len(p.Assignments))
+
 	for _, assignment := range p.Assignments {
 		projects = append(projects, assignment.Project)
 	}
@@ -91,7 +95,7 @@ func (p *Person) GetProjects() []string {
 
 // AssignmentStatuses returns list of assignment statuses
 func (p *Person) AssignmentStatuses() []string {
-	result := make([]string, 0)
+	result := make([]string, len(p.Assignments))
 	for _, element := range p.Assignments {
 		result = append(result, element.Status)
 	}
