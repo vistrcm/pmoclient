@@ -9,3 +9,7 @@ lint:
 .PHONY: lint-all
 lint-all:
 	golangci-lint run --enable-all
+
+.PHONY: fmt
+fmt:
+	go fmt ./...
