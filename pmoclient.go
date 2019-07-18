@@ -13,10 +13,10 @@ import (
 const formatString = "%s\t%s\t%s\t%s\t%s\t%s\t%v\n"
 const relativeConfigFilePath = "/.config/pmoclient.json"
 
-var config pmo.Configuration
-var useSpreadSheet = flag.Bool("spreadsheet", false, "use spreadsheet to get names and update spreadsheet at the end")
-
 func main() {
+	var config pmo.Configuration
+	var useSpreadSheet = flag.Bool("spreadsheet", false, "use spreadsheet to get names and update spreadsheet at the end")
+
 	flag.Parse()
 	// read config
 	config = pmo.ReadConfig(relativeConfigFilePath)
