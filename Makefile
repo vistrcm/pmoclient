@@ -5,3 +5,6 @@ install:
 
 lint:
 	golangci-lint run
+
+lint-all:
+	golangci-lint run --enable-all
